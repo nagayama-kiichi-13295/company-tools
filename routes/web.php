@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -24,3 +25,7 @@ Route::post('/logout', [LoginController::class, 'logout']);
 Route::get('/home', [HomeController::class, 'index'])
     ->middleware('auth')
     ->name('home');
+
+// フリマ
+Route::resource('products', ProductController::class)
+    ->middleware('auth');
