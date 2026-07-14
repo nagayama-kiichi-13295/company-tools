@@ -31,6 +31,16 @@
 
 <br>
 
+@if(auth()->id() === $product->user_id)
+    <br><br>
+
+    <a href="{{ route('products.edit', $product) }}">
+        編集する
+    </a>
+@endif
+
+<br>
+
 <a href="{{ route('products.index') }}">
     商品一覧へ戻る
 </a>

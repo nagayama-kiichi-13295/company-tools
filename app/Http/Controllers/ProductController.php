@@ -58,7 +58,12 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        // 自分の商品以外は編集不可
+        if ($product->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        return view('products.edit', compact('product'));
     }
 
     /**
@@ -66,7 +71,22 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        // 自分の商品以外は編集不可
+        if ($product->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $validated = $request->validate([
+            'name'        => ['required', 'max:255'],
+            'description' => ['required'],
+            'price'       => ['required', 'integer', 'min:0'],
+        ]);
+
+        $product->update($validated);
+
+        return redirect()
+            ->route('products.show', $product)
+            ->with('success', '商品を更新しました。');
     }
 
     /**
