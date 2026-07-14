@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>@yield('title')</title>
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 
 <body>
@@ -30,7 +31,7 @@
             <aside style="width: 220px">
                 <ul>
                     <li><a href="/home">ホーム</a></li>
-                    <li><a href="#">社内フリマ</a></li>
+                    <li><a href="{{ route('products.index') }}">社内フリマ</a></li>
                     <li><a href="#">チャット</a></li>
                     <li><a href="#">お知らせ</a></li>
                     <li><a href="#">イベント</a></li>
