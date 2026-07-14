@@ -1,21 +1,15 @@
-<!DOCTYPE html>
-<html lang="ja">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <title>OfficeHub</title>
-</head>
+@section('title', 'ホーム')
 
-<body>
-    <h1>OfficeHub</h1>
-    <p>{{ Auth::user()->name }}さん ようこそ！</p>
+@section('content')
 
-    <form action="/logout" method="post">
-        @csrf
-        <button type="submit">
-            ログアウト
-        </button>
-    </form>
-</body>
+<h2>ホーム</h2>
 
-</html>
+<p>
+    ようこそ、
+    <strong>{{ Auth::user()->name }}</strong>
+    さん！
+</p>
+
+@endsection

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>@yield('title')</title>
+</head>
+
+<body>
+    <header>
+        <h1>OfficeHub</h1>
+
+        @auth
+            {{ Auth::user()->name }}
+
+            <form action="/logout" method="post">
+                @csrf
+                <button>
+                    ログアウト
+                </button>
+            </form>
+        @endauth
+    </header>
+
+    <hr>
+
+    <div style="display: flex">
+        @auth
+
+            <aside style="width: 220px">
+                <ul>
+                    <li><a href="/home">ホーム</a></li>
+                    <li><a href="#">社内フリマ</a></li>
+                    <li><a href="#">チャット</a></li>
+                    <li><a href="#">お知らせ</a></li>
+                    <li><a href="#">イベント</a></li>
+                    <li><a href="#">マイページ</a></li>
+                </ul>
+            </aside>
+        @endauth
+
+        <main style="margin-left: 30px">
+            @yield('content')
+        </main>
+    </div>
+
+</body>
+
+</html>
