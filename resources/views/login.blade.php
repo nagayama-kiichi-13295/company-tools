@@ -1,44 +1,46 @@
-<!DOCTYPE html>
-<html lang="ja">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <title>OfficeHub ログイン</title>
-</head>
+@section('title', 'ログイン')
 
-<body>
-    <h1>OfficeHub</h1>
+@section('content')
 
-    @if($errors->any())
-    <p style="color: red;">
-        {{ $errors->first() }}
-    </p>
-    @endif
+<h2>ログイン</h2>
+@if($errors->any())
+<p style="color: red;">
+    {{ $errors->first() }}
+</p>
+@endif
 
-    <form action="/login" method="post">
+<form action="/login" method="post">
 
-        @csrf
-        <div>
-            <label>メールアドレス</label><br>
-            <input
-                type="email"
-                name="email"
-                value="{{ old('email') }}">
-        </div>
+    @csrf
+    <div>
+        <label>メールアドレス</label><br>
+        <input
+            type="email"
+            name="email"
+            value="{{ old('email') }}">
+    </div>
 
-        <br>
+    <br>
 
-        <div>
-            <label>パスワード</label><br>
-            <input
-                type="password"
-                name="password">
-        </div>
+    <div>
+        <label>パスワード</label><br>
+        <input
+            type="password"
+            name="password">
+    </div>
 
-        <br>
+    <br>
 
-        <button type="submit">ログイン</button>
-    </form>
-</body>
+    <button type="submit">ログイン</button>
+</form>
 
-</html>
+<br>
+
+<p>
+    アカウントお持ちでない方は
+    <a href="{{ url('/register') }}">新規登録はこちら</a>
+</p>
+
+@endsection
