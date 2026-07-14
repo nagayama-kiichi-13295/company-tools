@@ -37,6 +37,21 @@
     <a href="{{ route('products.edit', $product) }}">
         編集する
     </a>
+
+    <br><br>
+
+    <form
+        action="{{ route('products.destroy', $product) }}"
+        method="post"
+        onsubmit="return confirm('本当に消しますか?');"
+    >
+        @csrf
+        @method('DELETE')
+
+        <button type="submit">
+            削除する
+        </button>
+    </form>
 @endif
 
 <br>

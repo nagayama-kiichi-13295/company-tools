@@ -94,6 +94,15 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        // 自分以外の商品は削除不可
+        if ($product->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $product->delete();
+
+        return redirect()
+            ->route('products.index')
+            ->with('success', '商品を削除しました。');
     }
 }
