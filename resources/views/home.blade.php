@@ -6,6 +6,10 @@
 
 <h2>ホーム</h2>
 
-<p>ログインしました。</p>
+<p>
+    ようこそ、
+    <strong>{{ Auth::user()->name }}</strong>
+    さん！
+</p>
 
 @endsection
