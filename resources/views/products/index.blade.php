@@ -5,6 +5,11 @@
 @section('content')
 
 <h2>商品一覧</h2>
+@if(session('success'))
+    <p style="color: green;">
+        {{ session('success') }}
+    </p>
+@endif
 
 <p>
     <a href="{{ route('products.create') }}">商品を出品する</a>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -30,7 +31,18 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name'        => ['required', 'max:255'],
+            'description' => ['required'],
+            'price'       => ['required', 'integer', 'min:0'],
+        ]);
+
+        $validated['user_id'] = Auth::id();
+
+        Product::create($validated);
+
+        return redirect()->route('products.index')
+                         ->with('success', '商品を出品しました。');
     }
 
     /**
