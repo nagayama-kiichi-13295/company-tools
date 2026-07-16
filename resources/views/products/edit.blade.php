@@ -14,7 +14,7 @@
     </ul>
 @endif
 
-<form action="{{ route('products.update', $product) }}" method="post">
+<form action="{{ route('products.update', $product) }}" method="post" enctype="multipart/form-data">
     @csrf
     @method('PUT')
 
@@ -43,6 +43,14 @@
             value="{{ old('price', $product->price) }}"
         >
     </div>
+    <br>
+    <dev>
+        <label>商品画像</label><br>
+        @if($product->image_path)
+            <img src="{{ asset('storage/' . $product->image_path) }}" width="150"><br>
+        @endif
+        <input type="file" name="image" accept="image/*">
+    </dev>
     <br>
     <button type="submit">
         更新する

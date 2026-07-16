@@ -20,6 +20,16 @@
         <td>{{ $product->price }}</td>
     </tr>
     <tr>
+        <th>商品画像</th>
+        <td>
+            @if($product->image_path)
+                <img src="{{ asset('storage/' . $product->image_path) }}" width="200">
+            @else
+                画像なし
+            @endif
+        </td>
+    </tr>
+    <tr>
         <th>出品者</th>
         <td>{{ $product->user->name }}</td>
     </tr>

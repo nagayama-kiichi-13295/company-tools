@@ -21,6 +21,7 @@
     <table border="1" cellpadding="10">
         <tr>
             <th>ID</th>
+            <th>画像</th>
             <th>商品名</th>
             <th>価格</th>
             <th>出品者</th>
@@ -29,6 +30,14 @@
         @foreach($products as $product)
             <tr>
                 <td>{{ $product->id }}</td>
+
+                <td>
+                    @if($product->image_path)
+                        <img src="{{ asset('storage/' . $product->image_path) }}" width="80">
+                    @else
+                        なし
+                    @endif
+                </td>
 
                 <td>
                     <a href="{{ route('products.show', $product) }}">

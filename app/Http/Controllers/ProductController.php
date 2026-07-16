@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -35,8 +36,15 @@ class ProductController extends Controller
             'name'        => ['required', 'max:255'],
             'description' => ['required'],
             'price'       => ['required', 'integer', 'min:0'],
+            'image'       => ['nullable', 'image', 'max:2048'], //2048KB = 2MB
         ]);
 
+        // 画像が送られてきたら storage/app/public/products に保存し、パスを持たせる
+        if ($request->hasFile('image')) {
+            $validated['image_path'] = $request->file('image')->store('products', 'public');
+        }
+
+        unset($validated['image']); // ファイル本体は保存しないので除外
         $validated['user_id'] = Auth::id();
 
         Product::create($validated);
@@ -80,8 +88,18 @@ class ProductController extends Controller
             'name'        => ['required', 'max:255'],
             'description' => ['required'],
             'price'       => ['required', 'integer', 'min:0'],
+            'image'       => ['nullable', 'image', 'max:2048'],
         ]);
 
+        if ($request->hasFile('image')){
+            // 古い画像があれば削除
+            if ($product->image_path){
+                Storage::disk('public')->delete($product->image_path);
+            }
+            $validated['image_path'] = $request->file('image')->store('products', 'public');
+        }
+
+        unset($validated['image']);
         $product->update($validated);
 
         return redirect()
