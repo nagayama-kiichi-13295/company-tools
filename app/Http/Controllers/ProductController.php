@@ -96,9 +96,8 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         // 自分の商品以外は編集不可
-        if ($product->user_id !== auth()->id()) {
-            abort(403);
-        }
+        $this->authorize('update', $product);
+
         $categories = Category::orderBy('id')->get();
         return view('products.edit', compact('product', 'categories'));
     }
@@ -109,9 +108,7 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         // 自分の商品以外は編集不可
-        if ($product->user_id !== auth()->id()) {
-            abort(403);
-        }
+        $this->authorize('update', $product);
 
         $validated = $request->validate([
             'name'        => ['required', 'max:255'],
@@ -143,10 +140,7 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         // 自分以外の商品は削除不可
-        if ($product->user_id !== auth()->id()) {
-            abort(403);
-        }
-
+        $this->authorize('delete', $product);
         $product->delete();
 
         return redirect()
@@ -160,15 +154,7 @@ class ProductController extends Controller
     public function purchase(Product $product)
     {
         // 自分の商品は買えない
-        if ($product->user_id === Auth::id()) {
-            abort(403);
-        }
-
-        // 募集中以外は購入不可
-        if ($product->status !== 'available') {
-            return redirect()->route('products.show', $product)
-                ->with('error', 'この商品は既に取引中または完了しております。');
-        }
+        $this->authorize('purchase', $product);
 
         $product->status   = 'trading';
         $product->buyer_id = Auth::id();
@@ -184,15 +170,7 @@ class ProductController extends Controller
     public function complete(Product $product)
     {
         // 出品者か購入者のみ
-        if ($product->user_id !== Auth::id() && $product->buyer_id !== Auth::id()){
-            abort(403);
-        }
-
-        // 取引中以外は完了不可
-        if ($product->status !== 'trading') {
-            return redirect()->route('products.show', $product)
-                ->with('error', '取引中の商品のみ完了にできます。');
-        }
+        $this->authorize('complete', $product);
 
         $product->status = 'complete';
         $product->save();

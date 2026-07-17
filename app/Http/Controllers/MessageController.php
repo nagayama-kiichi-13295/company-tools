@@ -13,7 +13,7 @@ class MessageController extends Controller
      */
     public function index(Product $product)
     {
-        $this->authorizeChat($product);
+        $this->authorize('chat', $product);
         $messages = $product->messages()->with('user')->oldest()->get();
         return view('messages.index', compact('product', 'messages'));
     }
@@ -23,7 +23,7 @@ class MessageController extends Controller
      */
     public function store(Request $request, Product $product)
     {
-        $this->authorizeChat($product);
+        $this->authorizeChat('chat', $product);
         $validated = $request->validate([
             'body' => ['required', 'max:1000'],
         ]);
@@ -35,16 +35,5 @@ class MessageController extends Controller
         ]);
 
         return redirect()->route('messages.index', $product);
-    }
-
-    /**
-     * 出品者か購入者だけがチャットできる
-     */
-    private function authorizeChat(Product $product): void
-    {
-        $userId = Auth::id();
-        if ($product->user_id !== $userId && $product->buyer_id !== $userId) {
-            abort(403);
-        }
     }
 }
