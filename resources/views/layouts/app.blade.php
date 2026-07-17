@@ -37,7 +37,7 @@
 
                     {{-- 以下は未実装。機能を作ったら順に有効化する --}}
                     <li><a href="#">チャット</a></li>
-                    <li><a href="#">お知らせ</a></li>
+                    <li><a href="{{ route('announcements.index') }}">お知らせ</a></li>
                     <li><a href="#">イベント</a></li>
                     <li><a href="{{ route('mypage.index') }}">マイページ</a></li>
                 </ul>
