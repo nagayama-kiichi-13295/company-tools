@@ -68,6 +68,12 @@
     <br>
 @endif
 
+<!-- チャット:購入者がいて、自分が出品者か購入者のときだけ -->
+@if($product->buyer_id && ($product->user_id === auth()->id() || $product->buyer_id === auth()->id()))
+    <a href="{{ route('messages.index', $product) }}">チャットを開く</a>
+    <br><br>
+@endif
+
 @if(auth()->id() === $product->user_id)
     <br><br>
 

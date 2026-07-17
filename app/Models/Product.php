@@ -35,4 +35,9 @@ class Product extends Model
             default     => $this->status,
         };
     }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
 }

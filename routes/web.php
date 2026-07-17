@@ -5,6 +5,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\MessageController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -36,3 +37,10 @@ Route::post('/products/{product}/purchase', [ProductController::class, 'purchase
 
 Route::post('/products/{product}/complete', [ProductController::class, 'complete'])
     ->middleware('auth')->name('products.complete');
+
+// 購入者チャット
+Route::get('/products/{product}/messages', [MessageController::class, 'index'])
+    ->middleware('auth')->name('messages.index');
+
+Route::post('/products/{product}/messages', [MessageController::class, 'store'])
+    ->middleware('auth')->name('messages.store');
