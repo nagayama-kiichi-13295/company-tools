@@ -14,7 +14,7 @@
     </ul>
 @endif
 
-<form action="{{ route('products.update', $product) }}" method="post">
+<form action="{{ route('products.update', $product) }}" method="post" enctype="multipart/form-data">
     @csrf
     @method('PUT')
 
@@ -43,6 +43,27 @@
             value="{{ old('price', $product->price) }}"
         >
     </div>
+    <br>
+    <div>
+        <label>カテゴリ</label>
+        <select name="category_id">
+            <option value="">選択してください</option>
+            @foreach($categories as $category)
+                <option value="{{ $category->id }}"
+                    {{ old('category_id', $product->category_id) == $category->id ? 'selected' : '' }}>
+                    {{ $category->name }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+    <br>
+    <dev>
+        <label>商品画像</label><br>
+        @if($product->image_path)
+            <img src="{{ asset('storage/' . $product->image_path) }}" width="150"><br>
+        @endif
+        <input type="file" name="image" accept="image/*">
+    </dev>
     <br>
     <button type="submit">
         更新する
