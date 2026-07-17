@@ -9,6 +9,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\MyPageController;
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\EventController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -61,3 +62,10 @@ Route::get('/mypage', [MyPageController::class, 'index'])
 // お知らせ機能
 Route::resource('announcements', AnnouncementController::class)
     ->middleware('auth');
+
+// イベント機能
+Route::resource('events', EventController::class)
+    ->middleware('auth');
+
+Route::post('/events/{event}/join', [EventController::class, 'toggleJoin'])
+    ->middleware('auth')->name('events.join');

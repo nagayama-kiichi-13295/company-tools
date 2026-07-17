@@ -35,10 +35,9 @@
                     <li><a href="{{ route('products.create') }}">商品を出品する</a></li>
                     <li><a href="{{ route('favorites.index') }}">フリマお気に入り</a></li>
 
-                    {{-- 以下は未実装。機能を作ったら順に有効化する --}}
                     <li><a href="#">チャット</a></li>
                     <li><a href="{{ route('announcements.index') }}">お知らせ</a></li>
-                    <li><a href="#">イベント</a></li>
+                    <li><a href="{{ route('events.index') }}">イベント</a></li>
                     <li><a href="{{ route('mypage.index') }}">マイページ</a></li>
                 </ul>
             </aside>
