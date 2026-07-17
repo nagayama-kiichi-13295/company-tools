@@ -6,6 +6,13 @@
 
 <h2>商品詳細</h2>
 
+@if(session('success'))
+    <p style="color: green;">{{ session('success') }}</p>
+@endif
+@if(session('error'))
+    <p style="color: red;">{{ session('error') }}</p>
+@endif
+
 <table border="1" cellpadding="10">
     <tr>
         <th>商品名</th>
@@ -40,6 +47,26 @@
 </table>
 
 <br>
+
+<!-- 購入者ボタン：自分以外の商品で、募集中の時だけ -->
+@if($product->user_id !== auth()->id() && $product->status === 'available')
+    <form action="{{ route('products.purchase', $product) }}" method="post"
+          onsubmit="return confirm('この商品を購入しますか?');">
+        @csrf
+        <button type="submit">購入する</button>
+    </form>
+    <br>
+@endif
+
+<!-- 完了ボタン:出品者か購入者で、取引中の時だけ -->
+@if(($product->user_id === auth()->id() || $product->buyer_id === auth()->id()) && $product->status === 'trading')
+    <form action="{{ route('products.complete', $product) }}" method="post"
+          onsubmit="return confirm('取引を完了しますか?')">
+        @csrf
+        <button type="submit">取引完了にする</button>
+    </form>
+    <br>
+@endif
 
 @if(auth()->id() === $product->user_id)
     <br><br>

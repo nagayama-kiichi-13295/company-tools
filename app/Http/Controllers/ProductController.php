@@ -123,4 +123,51 @@ class ProductController extends Controller
             ->route('products.index')
             ->with('success', '商品を削除しました。');
     }
+
+    /**
+     * 購入する(募集中 -> 取引中)
+     */
+    public function purchase(Product $product)
+    {
+        // 自分の商品は買えない
+        if ($product->user_id === Auth::id()) {
+            abort(403);
+        }
+
+        // 募集中以外は購入不可
+        if ($product->status !== 'available') {
+            return redirect()->route('products.show', $product)
+                ->with('error', 'この商品は既に取引中または完了しております。');
+        }
+
+        $product->status   = 'trading';
+        $product->buyer_id = Auth::id();
+        $product->save();
+
+        return redirect()->route('products.show', $product)
+            ->with('success', '購入手続きを開始しました。');
+    }
+
+    /**
+     * 取引完了にする(取引中 -> 完了)
+     */
+    public function complete(Product $product)
+    {
+        // 出品者か購入者のみ
+        if ($product->user_id !== Auth::id() && $product->buyer_id !== Auth::id()){
+            abort(403);
+        }
+
+        // 取引中以外は完了不可
+        if ($product->status !== 'trading') {
+            return redirect()->route('products.show', $product)
+                ->with('error', '取引中の商品のみ完了にできます。');
+        }
+
+        $product->status = 'complete';
+        $product->save();
+
+        return redirect()->route('products.show', $product)
+            ->with('success', '取引を完了しました。');
+    }
 }

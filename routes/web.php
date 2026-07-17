@@ -29,3 +29,10 @@ Route::get('/home', [HomeController::class, 'index'])
 // フリマ
 Route::resource('products', ProductController::class)
     ->middleware('auth');
+
+// 購入者フロー
+Route::post('/products/{product}/purchase', [ProductController::class, 'purchase'])
+    ->middleware('auth')->name('products.purchase');
+
+Route::post('/products/{product}/complete', [ProductController::class, 'complete'])
+    ->middleware('auth')->name('products.complete');
