@@ -31,9 +31,14 @@ class ProductController extends Controller
             ->latest()
             ->get();
         
+        $favoriteIds = Auth::user()
+            ->favoriteProducts()
+            ->pluck('products.id')
+            ->toArray();
+        
         $categories = Category::orderBy('id')->get();
 
-        return view('products.index', compact('products', 'categories', 'keyword', 'categoryId'));
+        return view('products.index', compact('products', 'categories', 'keyword', 'categoryId', 'favoriteIds'));
     }
 
     /**
@@ -77,7 +82,12 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return view('products.show', compact('product'));
+        $isFavorite = Auth::user()
+            ->favoriteProducts()
+            ->where('products.id', $product->id)
+            ->exists();
+
+        return view('products.show', compact('product', 'isFavorite'));
     }
 
     /**

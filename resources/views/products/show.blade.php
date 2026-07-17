@@ -99,6 +99,15 @@
 
 <br>
 
+<form action="{{ route('favorites.toggle', $product) }}" method="post">
+    @csrf
+    <button type="submit">
+        {{ $isFavorite ? '★ お気に入り解除' : '☆ お気に入り登録' }}
+    </button>
+</form>
+
+<br>
+
 <a href="{{ route('products.index') }}">
     商品一覧へ戻る
 </a>

@@ -45,6 +45,7 @@
             <th>価格</th>
             <th>状態</th>
             <th>出品者</th>
+            <th>お気に入り</th>
         </tr>
 
         @foreach($products as $product)
@@ -69,6 +70,16 @@
                 <td>{{ number_format($product->price) }} 円</td>
                 <td>{{ $product->statusLabel() }}</td>
                 <td>{{ $product->user->name }}</td>
+                <td>
+                    <form action="{{ route('favorites.toggle', $product) }}" method="post">
+                        @csrf
+                        @if(in_array($product->id, $favoriteIds))
+                            <button type="submit">★ 解除</button>
+                        @else
+                            <button type="submit">☆ 登録</button>
+                        @endif
+                    </form>
+                </td>
             </tr>
         @endforeach
     </table>

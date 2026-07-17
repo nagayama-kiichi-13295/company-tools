@@ -6,6 +6,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\MessageController;
+use App\Http\Controllers\FavoriteController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -44,3 +45,9 @@ Route::get('/products/{product}/messages', [MessageController::class, 'index'])
 
 Route::post('/products/{product}/messages', [MessageController::class, 'store'])
     ->middleware('auth')->name('messages.store');
+
+// お気に入り登録
+Route::get('/favorites', [FavoriteController::class, 'index'])
+    ->middleware('auth')->name('favorites.index');
+Route::post('/products/{product}/favorite', [FavoriteController::class, 'toggle'])
+    ->middleware('auth')->name('favorites.toggle');
