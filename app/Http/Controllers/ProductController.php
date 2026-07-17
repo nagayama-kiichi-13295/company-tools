@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -12,11 +13,27 @@ class ProductController extends Controller
     /**
      * 商品一覧
      */
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::latest()->get();
+        $keyword    = $request->input('keyword');
+        $categoryId = $request->input('category_id');
 
-        return view('products.index', compact('products'));
+        $products   = Product::with(['user', 'category'])
+            ->when($keyword, function ($query, $keyword) {
+                $query->where(function ($q) use ($keyword) {
+                    $q->where('name', 'like', "%{$keyword}%")
+                      ->orWhere('description', 'like', "%{$keyword}%");
+                });
+            })
+            ->when($categoryId, function ($query, $categoryId) {
+                $query->where('category_id', $categoryId);
+            })
+            ->latest()
+            ->get();
+        
+        $categories = Category::orderBy('id')->get();
+
+        return view('products.index', compact('products', 'categories', 'keyword', 'categoryId'));
     }
 
     /**
@@ -24,7 +41,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+        $categories = Category::orderBy('id')->get();
+        return view('products.create', compact('categories'));
     }
 
     /**
@@ -37,6 +55,7 @@ class ProductController extends Controller
             'description' => ['required'],
             'price'       => ['required', 'integer', 'min:0'],
             'image'       => ['nullable', 'image', 'max:2048'], //2048KB = 2MB
+            'category_id' => ['nullable', 'exists:categories,id'],
         ]);
 
         // 画像が送られてきたら storage/app/public/products に保存し、パスを持たせる
@@ -70,8 +89,8 @@ class ProductController extends Controller
         if ($product->user_id !== auth()->id()) {
             abort(403);
         }
-
-        return view('products.edit', compact('product'));
+        $categories = Category::orderBy('id')->get();
+        return view('products.edit', compact('product', 'categories'));
     }
 
     /**
@@ -89,6 +108,7 @@ class ProductController extends Controller
             'description' => ['required'],
             'price'       => ['required', 'integer', 'min:0'],
             'image'       => ['nullable', 'image', 'max:2048'],
+            'category_id' => ['nullable', 'exists:categories,id'],
         ]);
 
         if ($request->hasFile('image')){

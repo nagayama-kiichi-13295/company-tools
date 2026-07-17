@@ -15,15 +15,35 @@
     <a href="{{ route('products.create') }}">商品を出品する</a>
 </p>
 
+<!-- 検索フォーム -->
+ <form action="{{ route('products.index') }}" method="get">
+    <input type="text" name="keyword" value="{{ $keyword }}" placeholder="キーワード">
+
+    <select name="category_id">
+        <option value="">すべてのカテゴリ</option>
+        @foreach($categories as $category)
+            <option value="{{ $category->id }}"
+                {{ $categoryId == $category->id ? 'selected' : '' }}>
+                {{ $category->name }}
+            </option>
+        @endforeach
+    </select>
+
+    <button type="submit">検索</button>
+    <a href="{{ route('products.index') }}">リセット</a>
+ </form>
+
 @if($products->isEmpty())
-    <p>商品はまだありません</p>
+    <p>該当する商品はありません</p>
 @else
     <table border="1" cellpadding="10">
         <tr>
             <th>ID</th>
             <th>画像</th>
             <th>商品名</th>
+            <td>カテゴリ</td>
             <th>価格</th>
+            <th>状態</th>
             <th>出品者</th>
         </tr>
 
@@ -45,11 +65,12 @@
                     </a>
                 </td>
 
+                <td>{{ $product->category->name ?? '未分類' }}</td>
                 <td>{{ number_format($product->price) }} 円</td>
+                <td>{{ $product->statusLabel() }}</td>
                 <td>{{ $product->user->name }}</td>
             </tr>
         @endforeach
-
     </table>
 @endif
 

@@ -43,6 +43,19 @@
     </div>
     <br>
     <div>
+        <label>カテゴリ</label><br>
+        <select name="category_id">
+            <option value="">選択してください</option>
+            @foreach($categories as $category)
+                <option value="{{ $category->id }}"
+                    {{ old('category_id') === $category->id ? 'selected' : '' }}>
+                    {{ $category->name }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+    <br>
+    <div>
         <label>商品画像</label><br>
         <input type="file" name="image" accept="image/*">
     </div>
