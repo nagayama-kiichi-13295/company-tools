@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\MyPageController;
+use App\Http\Controllers\AnnouncementController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -56,3 +57,7 @@ Route::post('/products/{product}/favorite', [FavoriteController::class, 'toggle'
 // MyPage
 Route::get('/mypage', [MyPageController::class, 'index'])
     ->middleware('auth')->name('mypage.index');
+
+// お知らせ機能
+Route::resource('announcements', AnnouncementController::class)
+    ->middleware('auth');
