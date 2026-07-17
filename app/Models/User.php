@@ -52,4 +52,16 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Product::class, 'favorites');
     }
+
+    // 自分が出品した商品
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
+    // 自分が購入した商品
+    public function purchasedProducts()
+    {
+        return $this->hasMany(Product::class, 'buyer_id');
+    }
 }

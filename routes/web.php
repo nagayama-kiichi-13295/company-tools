@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\MyPageController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -51,3 +52,7 @@ Route::get('/favorites', [FavoriteController::class, 'index'])
     ->middleware('auth')->name('favorites.index');
 Route::post('/products/{product}/favorite', [FavoriteController::class, 'toggle'])
     ->middleware('auth')->name('favorites.toggle');
+
+// MyPage
+Route::get('/mypage', [MyPageController::class, 'index'])
+    ->middleware('auth')->name('mypage.index');

@@ -39,7 +39,7 @@
                     <li><a href="#">チャット</a></li>
                     <li><a href="#">お知らせ</a></li>
                     <li><a href="#">イベント</a></li>
-                    <li><a href="#">マイページ</a></li>
+                    <li><a href="{{ route('mypage.index') }}">マイページ</a></li>
                 </ul>
             </aside>
         @endauth
