@@ -65,4 +65,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Product::class, 'buyer_id');
     }
+
+    public function joinedEvents()
+    {
+        return $this->belongsToMany(Event::class);
+    }
 }
