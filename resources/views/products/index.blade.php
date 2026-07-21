@@ -2,9 +2,14 @@
 
 @section('title', '商品一覧')
 
+@push('css')
+    <link rel="stylesheet" href="{{ asset('css/products.css') }}">
+@endpush
+
 @section('content')
 
 <h2>商品一覧</h2>
+
 @if(session('success'))
     <p class="flash-success">{{ session('success') }}</p>
 @endif
@@ -16,8 +21,8 @@
     <a href="{{ route('products.create') }}">商品を出品する</a>
 </p>
 
-<!-- 検索フォーム -->
- <form action="{{ route('products.index') }}" method="get">
+{{-- 検索フォーム --}}
+<form action="{{ route('products.index') }}" method="get" class="search-bar">
     <input type="text" name="keyword" value="{{ $keyword }}" placeholder="キーワード">
 
     <select name="category_id">
@@ -32,58 +37,57 @@
 
     <button type="submit">検索</button>
     <a href="{{ route('products.index') }}">リセット</a>
- </form>
+</form>
 
 @if($products->isEmpty())
     <p>該当する商品はありません</p>
 @else
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>画像</th>
-            <th>商品名</th>
-            <td>カテゴリ</td>
-            <th>価格</th>
-            <th>状態</th>
-            <th>出品者</th>
-            <th>お気に入り</th>
-        </tr>
+    <p class="result-count">{{ $products->count() }} 件の商品</p>
 
+    <div class="product-grid">
         @foreach($products as $product)
-            <tr>
-                <td>{{ $product->id }}</td>
+            <div class="product-card">
 
-                <td>
+                <a href="{{ route('products.show', $product) }}" class="product-thumb">
                     @if($product->image_path)
-                        <img src="{{ asset('storage/' . $product->image_path) }}" width="80">
+                        <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->name }}">
                     @else
-                        なし
+                        <span class="no-image">画像なし</span>
                     @endif
-                </td>
+                </a>
 
-                <td>
-                    <a href="{{ route('products.show', $product) }}">
-                        {{ $product->name}}
+                <div class="product-body">
+                    <span class="badge badge-{{ $product->status }}">
+                        {{ $product->statusLabel() }}
+                    </span>
+
+                    <a href="{{ route('products.show', $product) }}" class="product-name">
+                        {{ $product->name }}
                     </a>
-                </td>
 
-                <td>{{ $product->category->name ?? '未分類' }}</td>
-                <td>{{ number_format($product->price) }} 円</td>
-                <td>{{ $product->statusLabel() }}</td>
-                <td>{{ $product->user->name }}</td>
-                <td>
+                    <div class="product-price">
+                        {{ number_format($product->price) }} 円
+                    </div>
+
+                    <div class="product-meta">
+                        {{ $product->category->name ?? '未分類' }}／{{ $product->user->name }}
+                    </div>
+                </div>
+
+                <div class="product-footer">
                     <form action="{{ route('favorites.toggle', $product) }}" method="post">
                         @csrf
                         @if(in_array($product->id, $favoriteIds))
-                            <button type="submit">★ 解除</button>
+                            <button type="submit" class="btn-fav is-active">★ 解除</button>
                         @else
-                            <button type="submit">☆ 登録</button>
+                            <button type="submit" class="btn-fav">☆ 登録</button>
                         @endif
                     </form>
-                </td>
-            </tr>
+                </div>
+
+            </div>
         @endforeach
-    </table>
+    </div>
 @endif
 
 @endsection
