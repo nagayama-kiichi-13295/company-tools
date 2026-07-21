@@ -31,13 +31,16 @@ class AdminController extends Controller
         $categories = Category::withCount('products')
             ->orderBy('id')
             ->get();
+
+        // バーグラフ用: 最大件数(0除算を避けるための最低1)
+        $maxCategoryCount = max($categories->max('products_count') ?? 0, 1);
         
         // 最近の出品5件
         $recentProducts = Product::with('user')
             ->latest()
             ->take(5)
             ->get();
-
+        
         return view('admin.dashboard', compact(
             'userCount',
             'productCount',
@@ -45,6 +48,7 @@ class AdminController extends Controller
             'eventCount',
             'statusCounts',
             'categories',
+            'maxCategoryCount',
             'recentProducts',
         ));
     }

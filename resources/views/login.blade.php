@@ -2,45 +2,41 @@
 
 @section('title', 'ログイン')
 
+@push('css')
+    <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
+@endpush
+
 @section('content')
 
-<h2>ログイン</h2>
-@if($errors->any())
-<p style="color: red;">
-    {{ $errors->first() }}
-</p>
-@endif
+<div class="auth-wrap">
 
-<form action="/login" method="post">
+    <div class="auth-title">ログイン</div>
 
-    @csrf
-    <div>
-        <label>メールアドレス</label><br>
-        <input
-            type="email"
-            name="email"
-            value="{{ old('email') }}">
+    @if($errors->any())
+        <p class="flash-error">{{ $errors->first() }}</p>
+    @endif
+
+    <form action="/login" method="post">
+        @csrf
+
+        <div class="auth-group">
+            <label>メールアドレス</label>
+            <input type="email" name="email" value="{{ old('email') }}">
+        </div>
+
+        <div class="auth-group">
+            <label>パスワード</label>
+            <input type="password" name="password">
+        </div>
+
+        <button type="submit" class="auth-button">ログイン</button>
+    </form>
+
+    <div class="auth-footer">
+        アカウントをお持ちでない方は<br>
+        <a href="{{ url('/register') }}">新規登録はこちら</a>
     </div>
 
-    <br>
-
-    <div>
-        <label>パスワード</label><br>
-        <input
-            type="password"
-            name="password">
-    </div>
-
-    <br>
-
-    <button type="submit">ログイン</button>
-</form>
-
-<br>
-
-<p>
-    アカウントお持ちでない方は
-    <a href="{{ url('/register') }}">新規登録はこちら</a>
-</p>
+</div>
 
 @endsection
