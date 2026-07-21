@@ -1,0 +1,323 @@
+/* ===== 検索バー ===== */
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 24px;
+}
+
+.search-bar input[type="text"] {
+    max-width: 260px;
+}
+
+.search-bar select {
+    max-width: 200px;
+}
+
+/* ===== カード一覧 ===== */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.product-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.15s, transform 0.15s;
+}
+
+.product-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+/* 画像 */
+.product-thumb {
+    display: block;
+    width: 100%;
+    height: 160px;
+    background-color: #f3f4f6;
+}
+
+.product-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.product-thumb .no-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #9ca3af;
+    font-size: 13px;
+}
+
+/* 本文 */
+.product-body {
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+}
+
+.product-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1f2937;
+    line-height: 1.4;
+}
+
+.product-name:hover {
+    color: #4f46e5;
+}
+
+.product-price {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.product-meta {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+/* 状態バッジ */
+.badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    width: fit-content;
+}
+
+.badge-available {
+    background-color: #ecfdf5;
+    color: #047857;
+}
+
+.badge-trading {
+    background-color: #fffbeb;
+    color: #b45309;
+}
+
+.badge-completed {
+    background-color: #f3f4f6;
+    color: #6b7280;
+}
+
+/* カード下部 */
+.product-footer {
+    border-top: 1px solid #f3f4f6;
+    padding: 8px 14px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-fav {
+    background-color: transparent;
+    border: 1px solid #d1d5db;
+    color: #6b7280;
+    padding: 4px 12px;
+    font-size: 13px;
+}
+
+.btn-fav:hover {
+    background-color: #fef3c7;
+    border-color: #f59e0b;
+    color: #b45309;
+}
+
+.btn-fav.is-active {
+    border-color: #f59e0b;
+    color: #b45309;
+}
+
+/* 件数表示 */
+.result-count {
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 12px;
+}
+
+/* ===== 商品詳細 ===== */
+.product-detail {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+/* 左：画像 */
+.detail-image {
+    flex: 0 0 360px;
+    max-width: 100%;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #f9fafb;
+}
+
+.detail-image img {
+    width: 100%;
+    display: block;
+}
+
+.detail-image .no-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 260px;
+    color: #9ca3af;
+    font-size: 14px;
+}
+
+/* 右：情報 */
+.detail-info {
+    flex: 1;
+    min-width: 280px;
+}
+
+.detail-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 8px 0 4px;
+}
+
+.detail-price {
+    font-size: 28px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 16px;
+}
+
+.detail-desc {
+    background-color: #f9fafb;
+    border-radius: 6px;
+    padding: 12px 14px;
+    font-size: 14px;
+    white-space: pre-wrap;
+    margin-bottom: 16px;
+}
+
+/* 情報リスト */
+.detail-meta {
+    font-size: 14px;
+    border-top: 1px solid #f3f4f6;
+    margin-bottom: 20px;
+}
+
+.detail-meta div {
+    display: flex;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.detail-meta dt {
+    width: 90px;
+    flex-shrink: 0;
+    color: #6b7280;
+    margin: 0;
+}
+
+.detail-meta dd {
+    margin: 0;
+}
+
+/* 操作ボタン */
+.detail-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.btn-purchase {
+    background-color: #059669;
+    font-size: 15px;
+    padding: 10px 24px;
+}
+
+.btn-purchase:hover {
+    background-color: #047857;
+}
+
+.btn-complete {
+    background-color: #d97706;
+}
+
+.btn-complete:hover {
+    background-color: #b45309;
+}
+
+.btn-chat {
+    display: inline-block;
+    background-color: #fff;
+    border: 1px solid #4f46e5;
+    color: #4f46e5;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-size: 14px;
+}
+
+.btn-chat:hover {
+    background-color: #eef2ff;
+    text-decoration: none;
+}
+
+/* 出品者用の操作 */
+.owner-actions {
+    border-top: 1px solid #f3f4f6;
+    padding-top: 16px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.btn-edit {
+    display: inline-block;
+    background-color: #fff;
+    border: 1px solid #d1d5db;
+    color: #374151;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-size: 14px;
+}
+
+.btn-edit:hover {
+    background-color: #f9fafb;
+    text-decoration: none;
+}
+
+.btn-delete {
+    background-color: #fff;
+    border: 1px solid #ef4444;
+    color: #dc2626;
+}
+
+.btn-delete:hover {
+    background-color: #fef2f2;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 24px;
+    font-size: 14px;
+}
