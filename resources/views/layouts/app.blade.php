@@ -38,6 +38,9 @@
                     <li><a href="#">チャット</a></li>
                     <li><a href="{{ route('announcements.index') }}">お知らせ</a></li>
                     <li><a href="{{ route('events.index') }}">イベント</a></li>
+                    @if(auth()->user()->is_admin)
+                        <li><a href="{{ route('admin.dashboard') }}">管理者ダッシュボード</a></li>
+                    @endif
                     <li><a href="{{ route('mypage.index') }}">マイページ</a></li>
                 </ul>
             </aside>
