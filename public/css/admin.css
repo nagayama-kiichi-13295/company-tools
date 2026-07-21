@@ -1,0 +1,101 @@
+/* ===== 統計カード ===== */
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.stat-card {
+    background-color: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 18px 20px;
+    border-left: 4px solid #4f46e5;
+}
+
+.stat-label {
+    font-size: 13px;
+    color: #6b7280;
+    margin-bottom: 6px;
+}
+
+.stat-value {
+    font-size: 30px;
+    font-weight: 700;
+    color: #111827;
+    line-height: 1.2;
+}
+
+.stat-unit {
+    font-size: 14px;
+    font-weight: 400;
+    color: #6b7280;
+    margin-left: 4px;
+}
+
+/* 取引状況の色分け */
+.stat-card.is-available {
+    border-left-color: #10b981;
+}
+
+.stat-card.is-trading {
+    border-left-color: #f59e0b;
+}
+
+.stat-card.is-completed {
+    border-left-color: #9ca3af;
+}
+
+/* ===== バーグラフ ===== */
+.bar-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 32px;
+}
+
+.bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+}
+
+.bar-name {
+    width: 130px;
+    flex-shrink: 0;
+    color: #374151;
+}
+
+.bar-track {
+    flex: 1;
+    background-color: #f3f4f6;
+    border-radius: 999px;
+    height: 20px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    background-color: #4f46e5;
+    border-radius: 999px;
+    min-width: 2px;
+}
+
+.bar-count {
+    width: 50px;
+    flex-shrink: 0;
+    text-align: right;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+/* セクション見出し */
+.section-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 12px;
+    padding-left: 10px;
+    border-left: 3px solid #4f46e5;
+}
