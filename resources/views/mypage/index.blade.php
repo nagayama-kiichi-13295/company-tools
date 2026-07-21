@@ -8,7 +8,7 @@
 @if($listedProducts->isEmpty())
     <p>出品した商品はありません</p>
 @else
-    <table border="1" cellpadding="10">
+    <table>
         <tr>
             <th>画像</th>
             <th>商品名</th>
@@ -42,7 +42,7 @@
 @if($purchasedProducts->isEmpty())
     <p>購入した商品はありません</p>
 @else
-    <table border="1" cellpadding="10">
+    <table>
         <tr>
             <th>画像</th>
             <th>商品名</th>

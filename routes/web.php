@@ -10,6 +10,7 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\MyPageController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\AdminController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -69,3 +70,7 @@ Route::resource('events', EventController::class)
 
 Route::post('/events/{event}/join', [EventController::class, 'toggleJoin'])
     ->middleware('auth')->name('events.join');
+
+// 管理者画面
+Route::get('/admin', [AdminController::class, 'dashboard'])
+    ->middleware('auth')->name('admin.dashboard');
