@@ -6,9 +6,10 @@
 
 <h2>商品一覧</h2>
 @if(session('success'))
-    <p style="color: green;">
-        {{ session('success') }}
-    </p>
+    <p class="flash-success">{{ session('success') }}</p>
+@endif
+@if(session('error'))
+    <p class="flash-error">{{ session('error') }}</p>
 @endif
 
 <p>
@@ -36,7 +37,7 @@
 @if($products->isEmpty())
     <p>該当する商品はありません</p>
 @else
-    <table border="1" cellpadding="10">
+    <table>
         <tr>
             <th>ID</th>
             <th>画像</th>

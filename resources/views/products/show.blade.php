@@ -7,13 +7,13 @@
 <h2>商品詳細</h2>
 
 @if(session('success'))
-    <p style="color: green;">{{ session('success') }}</p>
+    <p class="flash-success">{{ session('success') }}</p>
 @endif
 @if(session('error'))
-    <p style="color: red;">{{ session('error') }}</p>
+    <p class="flash-error">{{ session('error') }}</p>
 @endif
 
-<table border="1" cellpadding="10">
+<table>
     <tr>
         <th>商品名</th>
         <td>{{ $product->name }}</td>
