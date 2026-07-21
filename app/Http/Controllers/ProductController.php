@@ -172,7 +172,7 @@ class ProductController extends Controller
         // 出品者か購入者のみ
         $this->authorize('complete', $product);
 
-        $product->status = 'complete';
+        $product->status = 'completed';
         $product->save();
 
         return redirect()->route('products.show', $product)

@@ -32,7 +32,7 @@ class ProductPolicy
     /**
      * 取引完了にできるのは出品者か購入者で、取引中のとき
      */
-    public function compete(User $user, Product $product): bool
+    public function complete(User $user, Product $product): bool
     {
         return ($user->id === $product->user_id || $user->id === $product->buyer_id)
             && $product->status === 'trading';

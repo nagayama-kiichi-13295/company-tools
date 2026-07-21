@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Announcement;
 use App\Models\Event;
-use App\models\Product;
+use App\Models\Product;
 
 
 class HomeController extends Controller

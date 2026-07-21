@@ -23,7 +23,7 @@ class MessageController extends Controller
      */
     public function store(Request $request, Product $product)
     {
-        $this->authorizeChat('chat', $product);
+        $this->authorize('chat', $product);
         $validated = $request->validate([
             'body' => ['required', 'max:1000'],
         ]);
