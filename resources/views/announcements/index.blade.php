@@ -1,5 +1,11 @@
 @extends('layouts.app')
+
 @section('title', 'お知らせ')
+
+@push('css')
+    <link rel="stylesheet" href="{{ asset('css/contents.css') }}">
+@endpush
+
 @section('content')
 
 <h2>お知らせ</h2>
@@ -7,40 +13,31 @@
 @if(session('success'))
     <p class="flash-success">{{ session('success') }}</p>
 @endif
-@if(session('error'))
-    <p class="flash-error">{{ session('error') }}</p>
-@endif
 
 @can('create', App\Models\Announcement::class)
-    <p>
-        <a href="{{ route('announcements.create') }}">お知らせを投稿する</a>
-    </p>
+    <a href="{{ route('announcements.create') }}" class="create-link">＋ お知らせを投稿する</a>
 @endcan
 
 @if($announcements->isEmpty())
-    <p>お知らせはありません</p>
+    <p>お知らせはありません。</p>
 @else
-    <table>
-        <tr>
-            <th>タイトル</th>
-            <th>投稿者</th>
-            <th>登校日</th>
-        </tr>
+    <div class="content-list">
         @foreach($announcements as $announcement)
-            <tr>
-                <td>
-                    @if($announcement->is_pinned)
-                        <strong>[重要]</strong>
-                    @endif
-                    <a href="{{ route('announcements.show', $announcement) }}">
+            <div class="content-item {{ $announcement->is_pinned ? 'is-pinned' : '' }}">
+                <div class="content-main">
+                    <a href="{{ route('announcements.show', $announcement) }}" class="content-title">
+                        @if($announcement->is_pinned)
+                            <span class="pin-mark">重要</span>
+                        @endif
                         {{ $announcement->title }}
                     </a>
-                </td>
-                <td>{{ $announcement->user->name }}</td>
-                <td>{{ $announcement->created_at->format('Y/m/d') }}</td>
-            </tr>
+                    <div class="content-meta">
+                        {{ $announcement->user->name }}／{{ $announcement->created_at->format('Y/m/d') }}
+                    </div>
+                </div>
+            </div>
         @endforeach
-    </table>
+    </div>
 @endif
 
 @endsection
