@@ -2,49 +2,42 @@
 
 @section('title', '商品編集')
 
+@push('css')
+    <link rel="stylesheet" href="{{ asset('css/form.css') }}">
+@endpush
+
 @section('content')
 
 <h2>商品編集</h2>
 
 @if ($errors->any())
-    <ul style="color: red;">
+    <ul class="error-list">
         @foreach($errors->all() as $error)
             <li>{{ $error }}</li>
         @endforeach
     </ul>
 @endif
 
-<form action="{{ route('products.update', $product) }}" method="post" enctype="multipart/form-data">
+<form action="{{ route('products.update', $product) }}" method="post" enctype="multipart/form-data" class="form-card">
     @csrf
     @method('PUT')
 
-    <div>
-        <label>商品名</label><br>
-        <input
-            type="text"
-            name="name"
-            value="{{ old('name', $product->name) }}"
-        >
+    <div class="form-group">
+        <label>商品名</label>
+        <input type="text" name="name" value="{{ old('name', $product->name) }}">
     </div>
-    <br>
-    <div>
-        <label>商品説明</label><br>
-        <textarea
-            name="description"
-            rows="5"
-        >{{ old('description', $product->description) }}</textarea>
+
+    <div class="form-group">
+        <label>商品説明</label>
+        <textarea name="description" rows="5">{{ old('description', $product->description) }}</textarea>
     </div>
-    <br>
-    <div>
-        <label>価格</label><br>
-        <input
-            type="number"
-            name="price"
-            value="{{ old('price', $product->price) }}"
-        >
+
+    <div class="form-group">
+        <label>価格</label>
+        <input type="number" name="price" value="{{ old('price', $product->price) }}">
     </div>
-    <br>
-    <div>
+
+    <div class="form-group">
         <label>カテゴリ</label>
         <select name="category_id">
             <option value="">選択してください</option>
@@ -56,18 +49,23 @@
             @endforeach
         </select>
     </div>
-    <br>
-    <dev>
-        <label>商品画像</label><br>
+
+    <div class="form-group">
+        <label>商品画像</label>
         @if($product->image_path)
-            <img src="{{ asset('storage/' . $product->image_path) }}" width="150"><br>
+            <div class="current-image">
+                <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->name }}">
+            </div>
         @endif
         <input type="file" name="image" accept="image/*">
-    </dev>
-    <br>
-    <button type="submit">
-        更新する
-    </button>
+        <div class="form-hint">変更しない場合は選択不要です</div>
+    </div>
+
+    <div class="form-actions">
+        <button type="submit">更新する</button>
+        <a href="{{ route('products.show', $product) }}" class="cancel-link">キャンセル</a>
+    </div>
+
 </form>
 
 @endsection

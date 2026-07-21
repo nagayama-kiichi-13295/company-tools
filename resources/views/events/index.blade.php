@@ -2,6 +2,10 @@
 
 @section('title', 'イベント')
 
+@push('css')
+    <link rel="stylesheet" href="{{ asset('css/contents.css') }}">
+@endpush
+
 @section('content')
 
 <h2>イベント</h2>
@@ -9,35 +13,35 @@
 @if(session('success'))
     <p class="flash-success">{{ session('success') }}</p>
 @endif
-@if(session('error'))
-    <p class="flash-error">{{ session('error') }}</p>
-@endif
 
 @can('create', App\Models\Event::class)
-    <p>
-        <a href="{{ route('events.create') }}">イベントを作成する</a>
-    </p>
+    <a href="{{ route('events.create') }}" class="create-link">＋ イベントを作成する</a>
 @endcan
 
 @if($events->isEmpty())
     <p>イベントはありません。</p>
 @else
-    <table>
-        <tr>
-            <th>タイトル</th>
-            <th>開催日時</th>
-            <th>参加人数</th>
-        </tr>
+    <div class="content-list">
         @foreach($events as $event)
-            <tr>
-                <td>
-                    <a href="{{ route('events.show', $event) }}">{{ $event->title }}</a>
-                </td>
-                <td>{{ $event->held_at->format('Y/m/d H:i') }}</td>
-                <td>{{ $event->participants_count }} 人</td>
-            </tr>
+            <div class="content-item">
+                <div class="date-box">
+                    <div class="date-month">{{ $event->held_at->format('n') }}月</div>
+                    <div class="date-day">{{ $event->held_at->format('j') }}</div>
+                </div>
+
+                <div class="content-main">
+                    <a href="{{ route('events.show', $event) }}" class="content-title">
+                        {{ $event->title }}
+                    </a>
+                    <div class="content-meta">
+                        {{ $event->held_at->format('Y/m/d H:i') }} 開催
+                    </div>
+                </div>
+
+                <div class="join-count">参加 {{ $event->participants_count }} 人</div>
+            </div>
         @endforeach
-    </table>
+    </div>
 @endif
 
 @endsection

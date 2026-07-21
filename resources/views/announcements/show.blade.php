@@ -1,42 +1,45 @@
 @extends('layouts.app')
+
 @section('title', 'お知らせ詳細')
+
+@push('css')
+    <link rel="stylesheet" href="{{ asset('css/contents.css') }}">
+@endpush
+
 @section('content')
 
 @if(session('success'))
     <p class="flash-success">{{ session('success') }}</p>
 @endif
-@if(session('error'))
-    <p class="flash-error">{{ session('error') }}</p>
-@endif
 
-<h2>
+<h2>お知らせ</h2>
+
+<div class="content-detail-title">
     @if($announcement->is_pinned)
-        [重要]
+        <span class="pin-mark">重要</span>
     @endif
     {{ $announcement->title }}
-</h2>
+</div>
 
-<p style="color: gray;">
-    {{ $announcement->user->name }}/{{ $announcement->created_at->format('Y/m/d H:i') }}
-</p>
+<div class="content-detail-meta">
+    {{ $announcement->user->name }}／{{ $announcement->created_at->format('Y/m/d H:i') }}
+</div>
 
-<div>{{ $announcement->body }}</div>
-
-<br>
+<div class="content-body">{{ $announcement->body }}</div>
 
 @can('update', $announcement)
-    <a href="{{ route('announcements.edit', $announcement) }}">編集する</a>
-    <br><br>
-    <form action="{{ route('announcements.destroy', $announcement) }}" method="post"
-          onsubmit="return confirm('本当に削除しますか?');">
-        
-        @csrf
-        @method('DELETE')
-        <button type="submit">削除する</button>
-    </form>
-    <br>
+    <div class="content-actions">
+        <a href="{{ route('announcements.edit', $announcement) }}" class="btn-edit">編集する</a>
+
+        <form action="{{ route('announcements.destroy', $announcement) }}" method="post"
+              onsubmit="return confirm('本当に削除しますか?');">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn-delete">削除する</button>
+        </form>
+    </div>
 @endcan
 
-<a href="{{ route('announcements.index') }}">お知らせ一覧へ戻る</a>
+<a href="{{ route('announcements.index') }}" class="back-link">← お知らせ一覧へ戻る</a>
 
 @endsection
