@@ -36,7 +36,7 @@
 @if($products->isEmpty())
     <p>該当する商品はありません</p>
 @else
-    <table border="1" cellpadding="10">
+    <table>
         <tr>
             <th>ID</th>
             <th>画像</th>

@@ -19,7 +19,7 @@
 @if($events->isEmpty())
     <p>イベントはありません。</p>
 @else
-    <table border="1" cellpadding="10">
+    <table>
         <tr>
             <th>タイトル</th>
             <th>開催日時</th>

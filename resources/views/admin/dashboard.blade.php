@@ -5,7 +5,7 @@
 <h2>管理者ダッシュボード</h2>
 
 <h3>全体の利用状況</h3>
-<table border="1" cellpadding="10">
+<table>
     <tr>
         <th>登録ユーザ数</th>
         <td>{{ $userCount }} 人</td>
@@ -27,7 +27,7 @@
 <br>
 
 <h3>取引状況</h3>
-<table border="1" cellpadding="10">
+<table>
     <tr>
         <th>募集中</th>
         <td>{{ $statusCounts['available'] ?? 0 }} 件</td>
@@ -45,7 +45,7 @@
 <br>
 
 <h3>カテゴリ別の出品数</h3>
-<table border="1" cellpadding="10">
+<table>
     <tr>
         <th>カテゴリ</th>
         <th>出品数</th>
@@ -64,7 +64,7 @@
 @if($recentProducts->isEmpty())
     <p>出品はまだありません</p>
 @else
-    <table border="1" cellpadding="10">
+    <table>
         <tr>
             <th>商品名</th>
             <th>出品者</th>

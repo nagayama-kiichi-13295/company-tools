@@ -17,7 +17,7 @@
 @if($announcements->isEmpty())
     <p>お知らせはありません</p>
 @else
-    <table border="1" cellpadding="10">
+    <table>
         <tr>
             <th>タイトル</th>
             <th>投稿者</th>

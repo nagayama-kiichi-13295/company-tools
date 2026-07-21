@@ -13,7 +13,7 @@
     <p style="color: red;">{{ session('error') }}</p>
 @endif
 
-<table border="1" cellpadding="10">
+<table>
     <tr>
         <th>商品名</th>
         <td>{{ $product->name }}</td>
