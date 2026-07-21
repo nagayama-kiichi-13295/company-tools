@@ -1,0 +1,107 @@
+/* ===== チャット全体 ===== */
+.chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+}
+
+.chat-header .product-link {
+    font-size: 14px;
+}
+
+/* メッセージ一覧 */
+.chat-log {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background-color: #f9fafb;
+    border-radius: 8px;
+    padding: 20px;
+    max-height: 480px;
+    overflow-y: auto;
+}
+
+.chat-empty {
+    color: #9ca3af;
+    font-size: 14px;
+    text-align: center;
+    padding: 24px 0;
+}
+
+/* 1件分 */
+.chat-row {
+    display: flex;
+    flex-direction: column;
+    max-width: 70%;
+}
+
+/* 相手（左） */
+.chat-row.is-other {
+    align-self: flex-start;
+    align-items: flex-start;
+}
+
+/* 自分（右） */
+.chat-row.is-mine {
+    align-self: flex-end;
+    align-items: flex-end;
+}
+
+.chat-name {
+    font-size: 12px;
+    color: #6b7280;
+    margin-bottom: 4px;
+}
+
+.chat-bubble {
+    padding: 10px 14px;
+    border-radius: 14px;
+    font-size: 14px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.is-other .chat-bubble {
+    background-color: #fff;
+    border: 1px solid #e5e7eb;
+    border-top-left-radius: 4px;
+    color: #1f2937;
+}
+
+.is-mine .chat-bubble {
+    background-color: #4f46e5;
+    color: #fff;
+    border-top-right-radius: 4px;
+}
+
+.chat-time {
+    font-size: 11px;
+    color: #9ca3af;
+    margin-top: 4px;
+}
+
+/* 送信フォーム */
+.chat-form {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    margin-top: 16px;
+}
+
+.chat-form textarea {
+    flex: 1;
+    max-width: none;
+    resize: vertical;
+    min-height: 60px;
+}
+
+.chat-form button {
+    padding: 10px 24px;
+    flex-shrink: 0;
+}
