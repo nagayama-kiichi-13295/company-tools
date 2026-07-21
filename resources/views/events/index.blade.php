@@ -7,7 +7,10 @@
 <h2>イベント</h2>
 
 @if(session('success'))
-    <p style="color: green;">{{ session('success') }}</p>
+    <p class="flash-success">{{ session('success') }}</p>
+@endif
+@if(session('error'))
+    <p class="flash-error">{{ session('error') }}</p>
 @endif
 
 @can('create', App\Models\Event::class)
