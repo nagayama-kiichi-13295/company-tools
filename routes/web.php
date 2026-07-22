@@ -11,6 +11,7 @@ use App\Http\Controllers\MyPageController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ChatController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -74,3 +75,13 @@ Route::post('/events/{event}/join', [EventController::class, 'toggleJoin'])
 // 管理者画面
 Route::get('/admin', [AdminController::class, 'dashboard'])
     ->middleware('auth')->name('admin.dashboard');
+
+// 社内チャット
+Route::get('/chats', [ChatController::class, 'index'])
+    ->middleware('auth')->name('chats.index');
+
+Route::get('/chats/{user}', [ChatController::class, 'show'])
+    ->middleware('auth')->name('chats.show');
+
+Route::post('/chats/{user}', [ChatController::class, 'store'])
+    ->middleware('auth')->name('chats.store');
