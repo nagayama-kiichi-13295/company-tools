@@ -82,4 +82,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(DirectMessage::class, 'receiver_id');
     }
+
+    public function groupTags()
+    {
+        return $this->belongsToMany(GroupTag::class);
+    }
 }
