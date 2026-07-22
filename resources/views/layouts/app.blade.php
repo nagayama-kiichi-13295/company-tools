@@ -39,6 +39,7 @@
                         </a>
                     </li>
                     <li><a href="{{ route('notes.index') }}">メモ</a></li>
+                    <li><a href="{{ route('notes.public') }}">公開メモ</a></li>
                     <li><a href="{{ route('products.index') }}">社内フリマ</a></li>
                     <li><a href="{{ route('products.create') }}">商品を出品する</a></li>
                     <li><a href="{{ route('favorites.index') }}">フリマお気に入り</a></li>

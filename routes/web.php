@@ -88,5 +88,12 @@ Route::post('/chats/{user}', [ChatController::class, 'store'])
     ->middleware('auth')->name('chats.store');
 
 // メモ
+
+Route::get('/notes/public', [NoteController::class, 'publicIndex'])
+    ->middleware('auth')->name('notes.public');
+
+Route::post('/notes/{note}/toggle-public', [NoteController::class, 'togglePublic'])
+    ->middleware('auth')->name('notes.togglePublic');
+
 Route::resource('notes', NoteController::class)
     ->middleware('auth');

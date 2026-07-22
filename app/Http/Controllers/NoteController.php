@@ -37,8 +37,10 @@ class NoteController extends Controller
      */
     public function show(Note $note)
     {
-        $this->authorizeNote($note);
-        $note->load('tags');
+        // 本人ではなく,かつ非公開なら見せない
+        abort_if($note->user_id !== Auth::id() && !$note->is_public, 403);
+
+        $note->load('tags', 'user');
         return view('notes.show', compact('note'));
     }
 
@@ -121,6 +123,29 @@ class NoteController extends Controller
 
         return redirect()->route('notes.index')
             ->with('success', 'メモを削除しました。');
+    }
+
+    // 公開/非公開の切り替え(本人のみ)
+    public function togglePublic(Note $note)
+    {
+        $this->authorizeNote($note);
+
+        $note->update(['is_public' => !$note->is_public]);
+
+        $message = $note->is_public ? 'メモを公開しました。' : '公開を停止しました。';
+
+        return redirect()->route('notes.show', $note)->with('success', $message);
+    }
+
+    // 公開メモ一覧(全員が閲覧可能)
+    public function publicIndex()
+    {
+        $notes = Note::where('is_public', true)
+            ->with(['tags', 'user'])
+            ->latest()
+            ->get();
+
+        return view('notes.public', compact('notes'));
     }
 
     // 本人のメモか確認
