@@ -12,6 +12,7 @@ use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\NoteController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -85,3 +86,7 @@ Route::get('/chats/{user}', [ChatController::class, 'show'])
 
 Route::post('/chats/{user}', [ChatController::class, 'store'])
     ->middleware('auth')->name('chats.store');
+
+// メモ
+Route::resource('notes', NoteController::class)
+    ->middleware('auth');
