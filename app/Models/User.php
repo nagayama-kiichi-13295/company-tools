@@ -70,4 +70,16 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Event::class);
     }
+
+    // 送ったDM
+    public function sentMessages()
+    {
+        return $this->hasMany(DirectMessage::class, 'sender_id');
+    }
+
+    // 受け取ったDM
+    public function receivedMessages()
+    {
+        return $this->hasMany(DirectMessage::class, 'receiver_id');
+    }
 }
