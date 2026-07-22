@@ -10,18 +10,11 @@ use Illuminate\Support\Facades\Auth;
 
 class GroupTagController extends Controller
 {
-    // 管理者以外は全メソッド拒否
-    public function __construct()
-    {
-        $this->middleware(function ($request, $next) {
-            abort_unless(Auth::check() && Auth::user()->is_admin, 403);
-            return $next($request);
-        });
-    }
-
     // タグ一覧+新規作成フォーム
     public function index()
     {
+        $this->authorizeAdmin();
+
         $groupTags = GroupTag::withCount('users')->orderBy('name')->get();
 
         return view('admin.group_tags.index', compact('groupTags'));
@@ -30,11 +23,12 @@ class GroupTagController extends Controller
     // タグ作成
     public function store(Request $request)
     {
+        $this->authorizeAdmin();
         $validated = $request->validate([
             'name' => ['required', 'max:50', 'unique:group_tags,name'],
         ]);
 
-        GroupTag::class($validated);
+        GroupTag::create($validated);
 
         return redirect()->route('admin.group-tags.index')
             ->with('success', 'グループタグを作成しました。');
@@ -43,6 +37,7 @@ class GroupTagController extends Controller
     // タグ削除
     public function destroy(GroupTag $groupTag)
     {
+        $this->authorizeAdmin();
         $groupTag->delete();
 
         return redirect()->route('admin.group-tags.index')
@@ -52,6 +47,7 @@ class GroupTagController extends Controller
     // 社員へのタグ付与画面
     public function assign(User $user)
     {
+        $this->authorizeAdmin();
         $groupTags   = GroupTag::orderBy('name')->get();
         $assignedIds = $user->groupTags->pluck('id')->toArray();
 
@@ -61,6 +57,7 @@ class GroupTagController extends Controller
     // 付与を保存
     public function updateAssignment(Request $request, User $user)
     {
+        $this->authorizeAdmin();
         $validated = $request->validate([
             'group_tags'   => ['nullable', 'array'],
             'group_tags.*' => ['exists:group_tags,id'],
@@ -71,5 +68,11 @@ class GroupTagController extends Controller
 
         return redirect()->route('admin.group-tags.index')
             ->with('success', $user->name .' さんのタグを更新しました。');
+    }
+    
+    // 管理者だけ許可
+    private function authorizeAdmin(): void
+    {
+        abort_unless(Auth::user()->is_admin, 403);
     }
 }
