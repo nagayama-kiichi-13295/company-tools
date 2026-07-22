@@ -47,6 +47,7 @@
                     <li><a href="{{ route('events.index') }}">イベント</a></li>
                     @if(auth()->user()->is_admin)
                         <li><a href="{{ route('admin.dashboard') }}">管理者ダッシュボード</a></li>
+                        <li><a href="{{ route('admin.group-tags.index') }}">グループタグ管理</a></li>
                     @endif
                     <li><a href="{{ route('mypage.index') }}">マイページ</a></li>
                 </ul>
