@@ -12,7 +12,7 @@ class NoteController extends Controller
     /**
      * 一覧(タグで絞り込み可)
      */
-    public function index()
+    public function index(Request $request)
     {
         $tagId = $request->input('tag_id');
 
@@ -76,7 +76,7 @@ class NoteController extends Controller
     /**
      * 編集画面
      */
-    public function edit(string $id)
+    public function edit(Note $note)
     {
         $this->authorizeNote($note);
         $note->load('tags');
