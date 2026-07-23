@@ -1,0 +1,73 @@
+.gt-section {
+    margin-bottom: 32px;
+}
+
+.gt-form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.gt-form input {
+    max-width: 240px;
+}
+
+.gt-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.gt-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid #e5e7eb;
+    border-radius: 999px;
+    padding: 6px 8px 6px 16px;
+    background-color: #fff;
+}
+
+.gt-item-name {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.gt-item-count {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.gt-del {
+    background-color: transparent;
+    border: none;
+    color: #dc2626;
+    padding: 2px 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.gt-del:hover {
+    background-color: #fef2f2;
+    border-radius: 50%;
+}
+
+.gt-checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 16px 0;
+}
+
+.gt-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.gt-check input {
+    width: auto;
+}

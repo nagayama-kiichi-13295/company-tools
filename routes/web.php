@@ -12,6 +12,8 @@ use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\NoteController;
+use App\Http\Controllers\Admin\GroupTagController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -85,3 +87,33 @@ Route::get('/chats/{user}', [ChatController::class, 'show'])
 
 Route::post('/chats/{user}', [ChatController::class, 'store'])
     ->middleware('auth')->name('chats.store');
+
+// メモ
+
+Route::get('/notes/public', [NoteController::class, 'publicIndex'])
+    ->middleware('auth')->name('notes.public');
+
+Route::post('/notes/{note}/toggle-public', [NoteController::class, 'togglePublic'])
+    ->middleware('auth')->name('notes.togglePublic');
+
+Route::get('/notes/shared', [NoteController::class, 'sharedWithMe'])
+    ->middleware('auth')->name('notes.shared');
+
+Route::resource('notes', NoteController::class)
+    ->middleware('auth');
+
+// 管理者：グループタグ
+Route::get('/admin/group-tags', [GroupTagController::class, 'index'])
+    ->middleware('auth')->name('admin.group-tags.index');
+
+Route::post('/admin/group-tags', [GroupTagController::class, 'store'])
+    ->middleware('auth')->name('admin.group-tags.store');
+    
+Route::delete('/admin/group-tags/{groupTag}', [GroupTagController::class, 'destroy'])
+    ->middleware('auth')->name('admin.group-tags.destroy');
+
+Route::get('/admin/users/{user}/group-tags', [GroupTagController::class, 'assign'])
+    ->middleware('auth')->name('admin.group-tags.assign');
+
+Route::put('/admin/users/{user}/group-tags', [GroupTagController::class, 'updateAssignment'])
+    ->middleware('auth')->name('admin.group-tags.update');

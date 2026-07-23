@@ -38,6 +38,9 @@
                             @endif
                         </a>
                     </li>
+                    <li><a href="{{ route('notes.index') }}">メモ</a></li>
+                    <li><a href="{{ route('notes.public') }}">公開メモ</a></li>
+                    <li><a href="{{ route('notes.shared') }}">共有されたメモ</a></li>
                     <li><a href="{{ route('products.index') }}">社内フリマ</a></li>
                     <li><a href="{{ route('products.create') }}">商品を出品する</a></li>
                     <li><a href="{{ route('favorites.index') }}">フリマお気に入り</a></li>
@@ -45,6 +48,7 @@
                     <li><a href="{{ route('events.index') }}">イベント</a></li>
                     @if(auth()->user()->is_admin)
                         <li><a href="{{ route('admin.dashboard') }}">管理者ダッシュボード</a></li>
+                        <li><a href="{{ route('admin.group-tags.index') }}">グループタグ管理</a></li>
                     @endif
                     <li><a href="{{ route('mypage.index') }}">マイページ</a></li>
                 </ul>
