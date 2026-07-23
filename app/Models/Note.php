@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Symfony\Component\HttpKernel\Fragment\FragmentUriGenerator;
 
 class Note extends Model
 {
@@ -25,5 +26,10 @@ class Note extends Model
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function sharedGroupTags()
+    {
+        return $this->belongsToMany(GroupTag::class, 'note_group_tag');
     }
 }

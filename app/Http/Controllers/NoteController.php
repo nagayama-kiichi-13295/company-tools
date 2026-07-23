@@ -38,10 +38,30 @@ class NoteController extends Controller
     public function show(Note $note)
     {
         // 本人ではなく,かつ非公開なら見せない
-        abort_if($note->user_id !== Auth::id() && !$note->is_public, 403);
+        abort_unless($this->canView($note), 403);
 
-        $note->load('tags', 'user');
+        $note->load('tags', 'user', 'sharedGroupTags');
         return view('notes.show', compact('note'));
+    }
+
+    // 閲覧できるか: 本人、または共有先グループに所属している
+    private function canView(Note $note): bool
+    {
+        $userId = Auth::id();
+
+        // 本人は常に閲覧可
+        if ($note->user_id === $userId) {
+            return true;
+        }
+
+        // メモの共有先グループID
+        $sharedGroupIds = $note->sharedGroupTags->pluck('id');
+
+        // 閲覧者の所属グループID
+        $myGroupIds = Auth::user()->groupTags->pluck('id');
+
+        // 1つでも重なれば閲覧可
+        return $sharedGroupIds->intersect($myGroupIds)->isNotEmpty();
     }
 
     /**
@@ -49,7 +69,8 @@ class NoteController extends Controller
      */
     public function create()
     {
-        return view('notes.create');
+        $groupTags = \App\Models\GroupTag::orderBy('name')->get();
+        return view('notes.create', compact('groupTags'));
     }
 
     /**
@@ -58,9 +79,11 @@ class NoteController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => ['required', 'max:255'],
-            'body'  => ['nullable'],
-            'tags'  => ['nullable', 'string', 'max:255'],
+            'title'        => ['required', 'max:255'],
+            'body'         => ['nullable'],
+            'tags'         => ['nullable', 'string', 'max:255'],
+            'group_tags'   => ['nullable', 'array'],
+            'group_tags.*' => ['exists:group_tags,id'],
         ]);
 
         $note = Note::create([
@@ -70,6 +93,8 @@ class NoteController extends Controller
         ]);
 
         $this->syncTags($note, $validated['tags'] ?? '');
+        $this->syncTags($note, $validated['tags'] ?? '');
+        $note->sharedGroupTags()->sync($request->input('group_tags', []));
 
         return redirect()->route('notes.show', $note)
             ->with('success', 'メモを作成しました。');
@@ -81,12 +106,14 @@ class NoteController extends Controller
     public function edit(Note $note)
     {
         $this->authorizeNote($note);
-        $note->load('tags');
+        $note->load('tags', 'sharedGroupTags');
 
         // 既存タグをカンマ区切り文字列に戻す
-        $tagText = $note->tags->pluck('name')->implode(', ');
+        $tagText   = $note->tags->pluck('name')->implode(', ');
+        $groupTags = \App\Models\GroupTag::orderBy('name')->get();
+        $sharedIds = $note->sharedGroupTags->pluck('id')->toArray();
 
-        return view('notes.edit', compact('note', 'tagText'));
+        return view('notes.edit', compact('note', 'tagText', 'groupTags', 'sharedIds'));
     }
 
     /**
@@ -97,9 +124,11 @@ class NoteController extends Controller
         $this->authorizeNote($note);
 
         $validated = $request->validate([
-            'title' => ['required', 'max:255'],
-            'body'  => ['nullable'],
-            'tags'  => ['nullable', 'string', 'max:255'],
+            'title'        => ['required', 'max:255'],
+            'body'         => ['nullable'],
+            'tags'         => ['nullable', 'string', 'max:255'],
+            'group_tags'   => ['nullable', 'array'],
+            'group_tags.*' => ['exists:group_tags,id'],
         ]);
 
         $note->update([
@@ -108,6 +137,8 @@ class NoteController extends Controller
         ]);
 
         $this->syncTags($note, $validated['tags'] ??  '');
+        $this->syncTags($note, $validated['tags'] ?? '');
+        $note->sharedGroupTags()->sync($request->input('group_tags', []));
 
         return redirect()->route('notes.show', $note)
             ->with('success', 'メモを更新しました。');
@@ -146,6 +177,22 @@ class NoteController extends Controller
             ->get();
 
         return view('notes.public', compact('notes'));
+    }
+
+    // 自分に共有されているメモ一覧
+    public function sharedWithMe()
+    {
+        $myGroupIds = Auth::user()->groupTags->pluck('id');
+
+        $notes = Note::where('user_id', '!=', Auth::id())
+            ->whereHas('sharedGroupTags', function ($query) use ($myGroupIds) {
+                $query->whereIn('group_tags.id', $myGroupIds);
+            })
+            ->with(['tags', 'user'])
+            ->latest()
+            ->get();
+        
+        return view('notes.shared', compact('notes'));
     }
 
     // 本人のメモか確認

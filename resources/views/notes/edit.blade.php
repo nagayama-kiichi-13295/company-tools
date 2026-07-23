@@ -37,6 +37,23 @@
         <div class="form-hint">カンマ区切りで入力(例: 仕事, アイデア, 買い物)</div>
     </div>
 
+    <div class="form-group">
+        <label>共有するグループ</label>
+        @if($groupTags->isEmpty())
+            <div class="form-hint">共有できるグループがありません</div>
+        @else
+            <div class="gt-checklist">
+                @foreach($groupTags as $group)
+                    <label class="gt-check">
+                        <input type="checkbox" name="group_tags[]" value="{{ $group->id }}"
+                            {{ in_array($group->id, old('group_tags', $sharedIds)) ? 'checked' : '' }}>
+                        {{ $group->name }}
+                    </label>
+                @endforeach
+            </div>
+        @endif
+    </div>
+
     <div class="form-actions">
         <button type="submit">更新する</button>
         <a href="{{ route('notes.show', $note) }}" class="cancel-link">キャンセル</a>
