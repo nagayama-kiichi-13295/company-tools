@@ -96,6 +96,9 @@ Route::get('/notes/public', [NoteController::class, 'publicIndex'])
 Route::post('/notes/{note}/toggle-public', [NoteController::class, 'togglePublic'])
     ->middleware('auth')->name('notes.togglePublic');
 
+Route::get('/notes/shared', [NoteController::class, 'sharedWithMe'])
+    ->middleware('auth')->name('notes.shared');
+
 Route::resource('notes', NoteController::class)
     ->middleware('auth');
 
@@ -111,5 +114,6 @@ Route::delete('/admin/group-tags/{groupTag}', [GroupTagController::class, 'destr
 
 Route::get('/admin/users/{user}/group-tags', [GroupTagController::class, 'assign'])
     ->middleware('auth')->name('admin.group-tags.assign');
+
 Route::put('/admin/users/{user}/group-tags', [GroupTagController::class, 'updateAssignment'])
     ->middleware('auth')->name('admin.group-tags.update');

@@ -12,4 +12,9 @@ class GroupTag extends Model
     {
         return $this->belongsToMany(User::class);
     }
+
+    public function notes()
+    {
+        return $this->belongsToMany(Note::class, 'note_group_tag');
+    }
 }
