@@ -13,6 +13,15 @@
 
 <h2>{{ $note->title }}</h2>
 
+@if($note->user_id === auth()->id() && $note->sharedGroupTags->isNotEmpty())
+    <div class="note-tags">
+        共有中:
+        @foreach($note->sharedGroupTags as $group)
+            <span class="note-tag">{{ $group->name }}</span>
+        @endforeach
+    </div>
+@endif
+
 @if($note->is_public)
     <span class="badge badge-available">公開中</span>
 @endif
